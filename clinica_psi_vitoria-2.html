@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clínica — Vitória Freitas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F7F4EF;--surface:#FFFFFF;--s2:#F0EDE7;--s3:#E8E3DB;
+  --border:#DDD8CF;--border2:#C8C2B6;
+  --text:#1A1714;--text2:#6B6460;--text3:#9B9490;
+  --accent:#8B5E52;--al:#F5EDE9;
+  --green:#4A7C6F;--gl:#E8F2EF;
+  --blue:#3B6B9E;--bl:#E8F0F8;
+  --gold:#A07B3A;--gol:#F5F0E4;
+  --red:#C0392B;--rl:#FDECEA;
+  --r:10px;--rl2:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;}
+
+/* AUTH */
+#auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:2.5rem;max-width:440px;width:100%;}
+.auth-logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--accent);text-align:center;margin-bottom:2px;}
+.auth-sub{font-size:12px;color:var(--text3);text-align:center;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem;}
+.setup-step{background:var(--s2);border-radius:var(--r);padding:1rem;margin-bottom:.75rem;}
+.step-num{font-size:11px;font-weight:500;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;}
+.step-title{font-size:13px;font-weight:500;margin-bottom:3px;}
+.step-desc{font-size:12px;color:var(--text2);line-height:1.5;}
+.step-desc a{color:var(--accent);text-decoration:none;font-weight:500;}
+.field{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);margin-top:6px;}
+.field:focus{outline:none;border-color:var(--accent);}
+.btn-login{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;margin-top:1.25rem;transition:opacity .15s;}
+.btn-login:hover{opacity:.88;}
+
+/* LAYOUT */
+#app{display:none;}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:210px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.sb-brand{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--border);}
+.sb-name{font-family:'DM Serif Display',serif;font-size:17px;color:var(--accent);}
+.sb-crp{font-size:11px;color:var(--text3);letter-spacing:.05em;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 1.25rem;font-size:13px;color:var(--text2);cursor:pointer;transition:all .12s;border-left:2px solid transparent;}
+.nav-item:hover{background:var(--s2);color:var(--text);}
+.nav-item.active{background:var(--al);color:var(--accent);border-left-color:var(--accent);font-weight:500;}
+.nav-sep{height:1px;background:var(--border);margin:.5rem 0;}
+.sb-footer{margin-top:auto;padding:.75rem 1.25rem;border-top:1px solid var(--border);font-size:11px;color:var(--text3);}
+.main{margin-left:210px;padding:2rem 2.25rem;min-height:100vh;}
+.section{display:none;}
+.section.active{display:block;}
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+.sec-title{font-family:'DM Serif Display',serif;font-size:22px;}
+.sec-title em{color:var(--accent);}
+
+/* BUTTONS */
+.btn{padding:8px 16px;border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s;border:none;}
+.btn-p{background:var(--accent);color:#fff;}
+.btn-p:hover{opacity:.88;}
+.btn-p:disabled{opacity:.5;cursor:not-allowed;}
+.btn-g{background:var(--green);color:#fff;}
+.btn-g:hover{opacity:.88;}
+.btn-o{background:transparent;color:var(--text);border:1px solid var(--border2);}
+.btn-o:hover{background:var(--s2);}
+.btn-sm{padding:5px 10px;font-size:12px;}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:1.25rem;margin-bottom:1rem;}
+.card-title{font-size:11px;font-weight:500;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.5rem;}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;}
+.m-label{font-size:11px;color:var(--text3);margin-bottom:4px;}
+.m-value{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);}
+.m-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+
+/* WEEK GRID */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:1.25rem;}
+.day-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:8px;min-height:85px;cursor:pointer;transition:all .12s;}
+.day-col:hover{border-color:var(--accent);background:var(--al);}
+.day-col.today{border-color:var(--accent);background:var(--al);}
+.day-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}
+.day-num{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:5px;}
+.day-col.today .day-num{color:var(--accent);}
+.day-event{font-size:10px;background:var(--gl);color:var(--green);border-radius:4px;padding:2px 5px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;}
+
+/* EVENT LIST */
+.event-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);}
+.event-row:last-child{border-bottom:none;}
+.event-time{font-size:12px;color:var(--text2);min-width:90px;font-variant-numeric:tabular-nums;padding-top:2px;}
+.event-dot{width:7px;height:7px;border-radius:50%;background:var(--green);margin-top:5px;flex-shrink:0;}
+.event-title{font-size:13px;font-weight:500;}
+.event-sub{font-size:12px;color:var(--text2);margin-top:1px;}
+.event-actions{margin-left:auto;display:flex;gap:4px;}
+
+/* PATIENT GRID */
+.patient-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.875rem;}
+.patient-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:1.125rem;cursor:pointer;transition:all .15s;}
+.patient-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(139,94,82,.08);transform:translateY(-1px);}
+.p-avatar{width:40px;height:40px;border-radius:50%;background:var(--al);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:13px;margin-bottom:9px;}
+.p-name{font-weight:500;font-size:14px;margin-bottom:2px;}
+.p-meta{font-size:12px;color:var(--text2);}
+.p-valor{font-size:12px;color:var(--green);font-weight:500;margin-top:4px;}
+.p-actions{display:flex;gap:5px;margin-top:10px;}
+.p-btn{flex:1;padding:5px 8px;border-radius:var(--r);font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);font-weight:500;transition:all .12s;}
+.p-btn:hover{background:var(--s2);color:var(--text);}
+.p-btn.pp{background:var(--accent);color:#fff;border-color:var(--accent);}
+.p-btn.pp:hover{opacity:.88;}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;}
+.form-grid.g3{grid-template-columns:1fr 1fr 1fr;}
+.form-full{grid-column:1/-1;}
+.form-label{display:block;font-size:11px;font-weight:500;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;}
+.form-input{width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);transition:border-color .15s;}
+.form-input:focus{outline:none;border-color:var(--accent);}
+textarea.form-input{resize:vertical;min-height:85px;line-height:1.6;}
+select.form-input{cursor:pointer;}
+.form-section{font-family:'DM Serif Display',serif;font-size:16px;color:var(--accent);margin:1.5rem 0 .875rem;padding-bottom:5px;border-bottom:1px solid var(--border);}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);}
+
+/* TABS */
+.tabs{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:1px solid var(--border);}
+.tab{padding:7px 14px;font-size:12px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif;transition:all .12s;white-space:nowrap;}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
+.tab:hover:not(.active){color:var(--text);}
+
+/* FINANCEIRO */
+.fin-table{width:100%;border-collapse:collapse;}
+.fin-table th{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);}
+.fin-table td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--border);}
+.fin-table tr:last-child td{border-bottom:none;}
+.fin-table tr:hover td{background:var(--s2);}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;}
+.badge-green{background:var(--gl);color:var(--green);}
+.badge-gold{background:var(--gol);color:var(--gold);}
+.badge-red{background:var(--rl);color:var(--red);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:999;padding:1rem;}
+.modal{background:var(--surface);border-radius:var(--rl2);padding:1.75rem;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.modal-title{font-family:'DM Serif Display',serif;font-size:18px;}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text2);line-height:1;}
+
+/* MISC */
+.loading{display:flex;align-items:center;gap:10px;padding:2rem;color:var(--text2);font-size:13px;}
+.spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{text-align:center;padding:3rem 2rem;color:var(--text3);}
+.empty-icon{font-size:36px;margin-bottom:.75rem;}
+.empty-title{font-size:14px;color:var(--text2);margin-bottom:4px;}
+.empty-sub{font-size:12px;}
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--text);color:var(--bg);padding:11px 16px;border-radius:var(--r);font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9999;max-width:300px;line-height:1.4;}
+.toast.show{opacity:1;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">Vitória Freitas</div>
+    <div class="auth-sub">CRP 05/72596 · Sistema Clínico</div>
+
+    <div class="setup-step">
+      <div class="step-num">Passo 1</div>
+      <div class="step-title">Ative as APIs no Google Cloud</div>
+      <div class="step-desc">Em <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a>, ative: <strong>Google Calendar API</strong> e <strong>Google Drive API</strong>. Em OAuth consent screen, adicione seu email como usuário de teste.</div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">Passo 2</div>
+      <div class="step-title">Crie o Client ID OAuth</div>
+      <div class="step-desc">Em <em>Credentials → Create → OAuth Client ID → Web App</em>. Em "Authorized JavaScript origins" adicione a URL onde o arquivo está hospedado.</div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">Passo 3</div>
+      <div class="step-title">Cole o Client ID abaixo</div>
+      <div class="step-desc">
+        <input class="field" id="client-id-input" placeholder="xxxx.apps.googleusercontent.com">
+      </div>
+    </div>
+    <button class="btn-login" onclick="iniciarAuth()">Entrar com Google →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-name">Vitória Freitas</div>
+      <div class="sb-crp">CRP 05/72596</div>
+    </div>
+    <div style="padding:.5rem 0">
+      <div class="nav-item active" onclick="showSection('agenda')">📅 Agenda</div>
+      <div class="nav-item" onclick="showSection('pacientes')">👤 Pacientes</div>
+      <div class="nav-sep"></div>
+      <div class="nav-item" onclick="showSection('anamnese')">📋 Nova anamnese</div>
+      <div class="nav-item" onclick="showSection('evolucao')">✏️ Registro de sessão</div>
+      <div class="nav-sep"></div>
+      <div class="nav-item" onclick="showSection('financeiro')">💰 Financeiro</div>
+    </div>
+    <div class="sb-footer">
+      <div id="user-email" style="margin-bottom:5px;word-break:break-all;"></div>
+      <span style="cursor:pointer;color:var(--accent)" onclick="sair()">Sair →</span>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- AGENDA -->
+    <div id="section-agenda" class="section active">
+      <div class="sec-header">
+        <h1 class="sec-title">Agenda <em>da semana</em></h1>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-o" onclick="loadAgenda()">↺ Atualizar</button>
+          <button class="btn btn-p" onclick="abrirModalConsulta()">+ Nova consulta</button>
+        </div>
+      </div>
+      <div id="agenda-content"><div class="loading"><div class="spinner"></div> Carregando...</div></div>
+    </div>
+
+    <!-- PACIENTES -->
+    <div id="section-pacientes" class="section">
+      <div class="sec-header">
+        <h1 class="sec-title">Meus <em>pacientes</em></h1>
+        <button class="btn btn-p" onclick="showSection('anamnese')">+ Nova anamnese</button>
+      </div>
+      <div id="pacientes-content"><div class="loading"><div class="spinner"></div> Carregando...</div></div>
+    </div>
+
+    <!-- ANAMNESE -->
+    <div id="section-anamnese" class="section">
+      <div class="sec-header">
+        <h1 class="sec-title">Nova <em>anamnese</em></h1>
+        <span class="badge badge-green">📁 Google Drive</span>
+      </div>
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('ta1')">Identificação</button>
+        <button class="tab" onclick="showTab('ta2')">Queixa e demanda</button>
+        <button class="tab" onclick="showTab('ta3')">História de vida</button>
+        <button class="tab" onclick="showTab('ta4')">Infância e família</button>
+        <button class="tab" onclick="showTab('ta5')">Vida amorosa</button>
+        <button class="tab" onclick="showTab('ta6')">Saúde e contexto</button>
+        <button class="tab" onclick="showTab('ta7')">Subjetividade</button>
+      </div>
+
+      <!-- Tab 1: Identificação -->
+      <div id="ta1" class="card">
+        <div class="form-grid">
+          <div class="form-full"><label class="form-label">Nome completo *</label><input class="form-input" id="a-nome" placeholder="Nome completo"></div>
+          <div><label class="form-label">Data de nascimento</label><input type="date" class="form-input" id="a-nasc"></div>
+          <div><label class="form-label">Gênero</label>
+            <select class="form-input" id="a-genero"><option value="">Selecione</option><option>Feminino</option><option>Masculino</option><option>Não-binário</option><option>Transgênero</option><option>Prefiro não informar</option></select>
+          </div>
+          <div><label class="form-label">Pronomes</label><input class="form-input" id="a-pronomes" placeholder="Ex: ela/dela, ele/dele"></div>
+          <div><label class="form-label">Orientação sexual</label>
+            <select class="form-input" id="a-orient"><option value="">Prefere não informar</option><option>Heterossexual</option><option>Homossexual</option><option>Bissexual</option><option>Pansexual</option><option>Assexual</option><option>Outro</option></select>
+          </div>
+          <div><label class="form-label">Estado civil</label>
+            <select class="form-input" id="a-civil"><option value="">Selecione</option><option>Solteiro/a</option><option>Namorando</option><option>Casado/a</option><option>União estável</option><option>Divorciado/a</option><option>Viúvo/a</option></select>
+          </div>
+          <div><label class="form-label">Profissão</label><input class="form-input" id="a-prof" placeholder="Profissão ou ocupação"></div>
+          <div><label class="form-label">Escolaridade</label>
+            <select class="form-input" id="a-escol"><option value="">Selecione</option><option>Fund. incompleto</option><option>Fund. completo</option><option>Médio incompleto</option><option>Médio completo</option><option>Superior incompleto</option><option>Superior completo</option><option>Pós-graduação</option></select>
+          </div>
+          <div><label class="form-label">WhatsApp</label><input class="form-input" id="a-tel" placeholder="(21) 9xxxx-xxxx"></div>
+          <div><label class="form-label">Email</label><input type="email" class="form-input" id="a-email"></div>
+          <div><label class="form-label">Como chegou?</label>
+            <select class="form-input" id="a-enc"><option value="">Selecione</option><option>Indicação familiar</option><option>Indicação de amigo</option><option>Indicação médica</option><option>Instagram</option><option>Google</option><option>Plataforma online</option><option>Outro</option></select>
+          </div>
+          <div><label class="form-label">Modalidade</label>
+            <select class="form-input" id="a-modal"><option>Online (Google Meet)</option><option>Presencial</option><option>Híbrido</option></select>
+          </div>
+          <div><label class="form-label">Valor da sessão (R$)</label><input type="number" class="form-input" id="a-valor" placeholder="Ex: 180"></div>
+          <div><label class="form-label">Frequência</label>
+            <select class="form-input" id="a-freq"><option>Semanal</option><option>Quinzenal</option><option>Mensal</option></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Queixa -->
+      <div id="ta2" class="card" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:.875rem">
+          <div><label class="form-label">Queixa principal (nas palavras do paciente)</label><textarea class="form-input" id="a-queixa" placeholder="O que trouxe o paciente à psicoterapia?"></textarea></div>
+          <div><label class="form-label">História da queixa — quando começou, contexto</label><textarea class="form-input" id="a-hist-queixa" placeholder="Início, precipitantes, evolução do sintoma..."></textarea></div>
+          <div><label class="form-label">Tentativas anteriores de solução</label><textarea class="form-input" id="a-tentativas" placeholder="O que já tentou fazer para resolver? O que aliviou ou piorou?"></textarea></div>
+          <div><label class="form-label">O que espera da psicoterapia?</label><textarea class="form-input" id="a-expectativa" placeholder="Objetivos, expectativas, demanda explícita e implícita..."></textarea></div>
+          <div><label class="form-label">Psicoterapia ou psiquiatria anteriores</label><textarea class="form-input" id="a-anteriores" placeholder="Quando, por quanto tempo, abordagem, motivo de encerramento, como foi a experiência..."></textarea></div>
+          <div><label class="form-label">Uso atual de medicação psiquiátrica</label><textarea class="form-input" id="a-meds" placeholder="Medicamentos, doses, prescrito por quem, há quanto tempo..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- Tab 3: História de vida -->
+      <div id="ta3" class="card" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:.875rem">
+          <div><label class="form-label">Marcos significativos da vida</label><textarea class="form-input" id="a-marcos" placeholder="Eventos marcantes, perdas, conquistas, mudanças importantes..."></textarea></div>
+          <div><label class="form-label">Experiências de luto e perda</label><textarea class="form-input" id="a-luto" placeholder="Mortes, separações, perdas de emprego, abortos, outros..."></textarea></div>
+          <div><label class="form-label">Traumas e experiências difíceis</label><textarea class="form-input" id="a-trauma" placeholder="Abuso, violência, acidentes, situações de humilhação..."></textarea></div>
+          <div><label class="form-label">Experiências positivas e recursos</label><textarea class="form-input" id="a-recursos" placeholder="O que foi protetor? Vínculos saudáveis, conquistas, superações..."></textarea></div>
+          <div><label class="form-label">Escolaridade e vida profissional</label><textarea class="form-input" id="a-escola" placeholder="Trajetória escolar, experiências no trabalho, realizações, frustrações..."></textarea></div>
+          <div><label class="form-label">Sonhos, projetos e perspectivas de futuro</label><textarea class="form-input" id="a-sonhos" placeholder="O que deseja para o futuro? Projetos de vida..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Infância e família -->
+      <div id="ta4" class="card" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:.875rem">
+          <div><label class="form-label">Configuração familiar de origem</label><textarea class="form-input" id="a-fam-orig" placeholder="Com quem foi criado, estrutura da família, quem eram as figuras de cuidado..."></textarea></div>
+          <div><label class="form-label">Relação com a figura materna</label><textarea class="form-input" id="a-mae" placeholder="Como foi/é a relação com a mãe ou figura materna? Como descreve essa pessoa?"></textarea></div>
+          <div><label class="form-label">Relação com a figura paterna</label><textarea class="form-input" id="a-pai" placeholder="Como foi/é a relação com o pai ou figura paterna? Como descreve essa pessoa?"></textarea></div>
+          <div><label class="form-label">Irmãos e posição na fratria</label><textarea class="form-input" id="a-irmaos" placeholder="Tem irmãos? Qual a posição? Como eram/são as relações?"></textarea></div>
+          <div><label class="form-label">Clima emocional da família de origem</label><textarea class="form-input" id="a-clima" placeholder="Era uma família afetiva, fria, violenta, ausente, superprotetora? Como se sentia em casa?"></textarea></div>
+          <div><label class="form-label">Memórias marcantes da infância</label><textarea class="form-input" id="a-mem-inf" placeholder="Lembranças mais vivas — alegres ou dolorosas — dos primeiros anos de vida..."></textarea></div>
+          <div><label class="form-label">Experiências de abuso ou negligência</label><textarea class="form-input" id="a-abuso" placeholder="Se houver, quando, por quem, se foi revelado a alguém..."></textarea></div>
+          <div><label class="form-label">Padrões relacionais aprendidos na família</label><textarea class="form-input" id="a-padroes" placeholder="O que aprendeu sobre relacionamentos, conflito, afeto, limites na família?"></textarea></div>
+          <div><label class="form-label">História familiar de saúde mental</label><textarea class="form-input" id="a-fam-saude" placeholder="Há histórico de depressão, ansiedade, psicose, suicídio, dependência química na família?"></textarea></div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Vida amorosa -->
+      <div id="ta5" class="card" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:.875rem">
+          <div><label class="form-label">Situação afetiva atual</label><textarea class="form-input" id="a-afetivo" placeholder="Está em relacionamento? Como está sendo? Há quanto tempo?"></textarea></div>
+          <div><label class="form-label">Histórico afetivo-amoroso</label><textarea class="form-input" id="a-historico-am" placeholder="Primeiros relacionamentos, padrões repetidos, relações mais significativas..."></textarea></div>
+          <div><label class="form-label">Padrões repetidos nos relacionamentos</label><textarea class="form-input" id="a-padroes-am" placeholder="Percebe padrões? Atrai o mesmo tipo de pessoa? Repete os mesmos conflitos?"></textarea></div>
+          <div><label class="form-label">Vida sexual</label><textarea class="form-input" id="a-sexual" placeholder="Como avalia sua vida sexual? Há dificuldades, bloqueios, satisfação?"></textarea></div>
+          <div><label class="form-label">Relação com o próprio corpo e autoimagem</label><textarea class="form-input" id="a-corpo" placeholder="Como se relaciona com o próprio corpo? Há insatisfações, vergonhas?"></textarea></div>
+          <div><label class="form-label">Filhos e maternidade/paternidade</label><textarea class="form-input" id="a-filhos" placeholder="Tem filhos? Como é essa experiência? Deseja ter? Como foi a gestação?"></textarea></div>
+          <div><label class="form-label">Rede de amizades e vínculos sociais</label><textarea class="form-input" id="a-amigos" placeholder="Como são suas amizades? Tem pessoas de confiança? Se isola ou busca conexão?"></textarea></div>
+        </div>
+      </div>
+
+      <!-- Tab 6: Saúde e contexto -->
+      <div id="ta6" class="card" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:.875rem">
+          <div><label class="form-label">Condições de saúde física</label><textarea class="form-input" id="a-saude" placeholder="Doenças crônicas, cirurgias, internações, condições físicas relevantes..."></textarea></div>
+          <div><label class="form-label">Diagnósticos psiquiátricos conhecidos</label><input class="form-input" id="a-diag" placeholder="Ex: TAG, TDM, TDAH, TOC..."></div>
+          <div><label class="form-label">Sono</label>
+            <select class="form-input" id="a-sono"><option value="">Selecione</option><option>Sem dificuldades</option><option>Insônia leve</option><option>Insônia moderada/grave</option><option>Hipersonia</option><option>Pesadelos frequentes</option></select>
+          </div>
+          <div><label class="form-label">Alimentação</label>
+            <select class="form-input" id="a-alim"><option value="">Selecione</option><option>Sem dificuldades</option><option>Compulsão alimentar</option><option>Restrição alimentar</option><option>Histórico de TA</option></select>
+          </div>
+          <div><label class="form-label">Uso de substâncias</label>
+            <select class="form-input" id="a-subs"><option value="">Selecione</option><option>Nenhum</option><option>Tabaco</option><option>Álcool ocasional</option><option>Álcool frequente</option><option>Cannabis</option><option>Outras drogas</option><option>Múltiplas substâncias</option></select>
+          </div>
+          <div><label class="form-label">Indicadores de risco</label>
+            <select class="form-input" id="a-risco"><option>Sem indicadores</option><option>Ideação suicida passiva</option><option>Ideação suicida ativa</option><option>Autolesão</option><option>Risco para outros</option></select>
+          </div>
+          <div><label class="form-label">Contexto socioeconômico e moradia</label><textarea class="form-input" id="a-social" placeholder="Com quem mora, condições de moradia, situação financeira, suporte social..."></textarea></div>
+          <div><label class="form-label">Situação de trabalho atual</label><textarea class="form-input" id="a-trabalho" placeholder="Está trabalhando? Como é o ambiente? Satisfação, conflitos..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- Tab 7: Subjetividade -->
+      <div id="ta7" class="card" style="display:none">
+        <div style="display:flex;flex-direction:column;gap:.875rem">
+          <div><label class="form-label">Religiosidade e espiritualidade</label><textarea class="form-input" id="a-relig" placeholder="Tem religião ou espiritualidade? Qual o papel disso na sua vida? Já teve crises de fé?"></textarea></div>
+          <div><label class="form-label">Valores e crenças centrais</label><textarea class="form-input" id="a-valores" placeholder="O que é mais importante para você? Quais valores guiam suas escolhas?"></textarea></div>
+          <div><label class="form-label">Como lida com conflitos e frustrações</label><textarea class="form-input" id="a-conflito" placeholder="Evita, enfrenta, explode, recua? Como reage quando algo não sai como quer?"></textarea></div>
+          <div><label class="form-label">Mecanismos de defesa percebidos</label><textarea class="form-input" id="a-defesa" placeholder="Racionalização, negação, projeção, repressão — o que o clínico observa..."></textarea></div>
+          <div><label class="form-label">Qual imagem tem de si mesmo</label><textarea class="form-input" id="a-selfimage" placeholder="Como se descreve? O que acha que os outros pensam de você?"></textarea></div>
+          <div><label class="form-label">Interesses, lazer e criatividade</label><textarea class="form-input" id="a-lazer" placeholder="O que gosta de fazer? Tem hobbies, arte, esporte, leitura?"></textarea></div>
+          <div><label class="form-label">Sonhos (durante o sono) recorrentes ou marcantes</label><textarea class="form-input" id="a-sonhos-sono" placeholder="Tem sonhos recorrentes? Pesadelos? Sonhos que ficaram marcados?"></textarea></div>
+          <div><label class="form-label">Impressões clínicas iniciais e hipóteses</label><textarea class="form-input" id="a-impressoes" style="min-height:110px" placeholder="Observações da psicóloga, hipóteses diagnósticas, pontos de atenção, dinâmica percebida..."></textarea></div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-o" onclick="showSection('pacientes')">Cancelar</button>
+        <button class="btn btn-p" id="btn-anamnese" onclick="salvarAnamnese()">📁 Salvar prontuário no Drive</button>
+      </div>
+    </div>
+
+    <!-- EVOLUÇÃO -->
+    <div id="section-evolucao" class="section">
+      <div class="sec-header">
+        <h1 class="sec-title">Registro de <em>sessão</em></h1>
+        <span class="badge badge-green">📁 Adiciona ao prontuário</span>
+      </div>
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-full"><label class="form-label">Paciente *</label>
+            <select class="form-input" id="ev-pac"><option value="">Selecione o paciente</option></select>
+          </div>
+          <div><label class="form-label">Data da sessão *</label><input type="date" class="form-input" id="ev-data"></div>
+          <div><label class="form-label">Nº da sessão</label><input type="number" class="form-input" id="ev-num" placeholder="Ex: 5" min="1"></div>
+          <div class="form-full"><label class="form-label">Conteúdo trazido pelo paciente</label><textarea class="form-input" id="ev-cont" placeholder="O que o paciente trouxe na sessão..."></textarea></div>
+          <div class="form-full"><label class="form-label">Intervenções realizadas</label><textarea class="form-input" id="ev-interv" placeholder="Técnicas utilizadas, interpretações, construções, devolutivas..."></textarea></div>
+          <div class="form-full"><label class="form-label">Impressões clínicas e evolução</label><textarea class="form-input" id="ev-imp" placeholder="Hipóteses, mudanças percebidas, transferência, resistências..."></textarea></div>
+          <div class="form-full"><label class="form-label">Planejamento para próxima sessão</label><textarea class="form-input" id="ev-plan" placeholder="Temas a retomar, tarefas combinadas..."></textarea></div>
+          <div><label class="form-label">Sessão paga?</label>
+            <select class="form-input" id="ev-pago"><option value="sim">Sim</option><option value="nao">Não</option><option value="pendente">Pendente</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-o" onclick="showSection('pacientes')">Cancelar</button>
+        <button class="btn btn-p" id="btn-evolucao" onclick="salvarEvolucao()">📁 Salvar evolução</button>
+      </div>
+    </div>
+
+    <!-- FINANCEIRO -->
+    <div id="section-financeiro" class="section">
+      <div class="sec-header">
+        <h1 class="sec-title">Financeiro <em>mensal</em></h1>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="form-input" id="fin-mes" style="width:auto;font-size:13px" onchange="renderFinanceiro()"></select>
+        </div>
+      </div>
+      <div id="fin-content"><div class="loading"><div class="spinner"></div> Carregando...</div></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL NOVA CONSULTA -->
+<div id="modal-consulta" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nova consulta</div>
+      <button class="modal-close" onclick="fecharModal()">×</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.875rem">
+      <div><label class="form-label">Paciente</label>
+        <select class="form-input" id="mc-pac"><option value="">Selecione ou digite nome</option></select>
+      </div>
+      <div class="form-grid">
+        <div><label class="form-label">Data *</label><input type="date" class="form-input" id="mc-data"></div>
+        <div><label class="form-label">Horário *</label><input type="time" class="form-input" id="mc-hora"></div>
+      </div>
+      <div><label class="form-label">Duração</label>
+        <select class="form-input" id="mc-dur"><option value="50">50 minutos</option><option value="60">60 minutos</option><option value="45">45 minutos</option><option value="90">90 minutos</option></select>
+      </div>
+      <div><label class="form-label">Observação</label><input class="form-input" id="mc-obs" placeholder="Ex: Sessão de devolutiva, retorno..."></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-o" onclick="fecharModal()">Cancelar</button>
+      <button class="btn btn-p" id="btn-criar-consulta" onclick="criarConsulta()">📅 Criar no Google Agenda</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+const SCOPES = [
+  'https://www.googleapis.com/auth/calendar',
+  'https://www.googleapis.com/auth/drive.file',
+  'https://www.googleapis.com/auth/drive.metadata.readonly',
+  'https://www.googleapis.com/auth/userinfo.email'
+].join(' ');
+
+let accessToken = null;
+let driveFiles = [];
+let CLIENT_ID = '';
+
+// ── AUTH ─────────────────────────────────────────
+function iniciarAuth() {
+  CLIENT_ID = document.getElementById('client-id-input').value.trim();
+  if (!CLIENT_ID || !CLIENT_ID.includes('.apps.googleusercontent.com')) {
+    showToast('Cole um Client ID válido.'); return;
+  }
+  localStorage.setItem('gClientId', CLIENT_ID);
+
+  const gsi = document.createElement('script');
+  gsi.src = 'https://accounts.google.com/gsi/client';
+  gsi.onload = () => {
+    const tc = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: (r) => {
+        if (r.error) { showToast('Erro: ' + r.error); return; }
+        accessToken = r.access_token;
+        onLogin();
+      }
+    });
+    tc.requestAccessToken({ prompt: 'consent' });
+  };
+  document.head.appendChild(gsi);
+}
+
+function onLogin() {
+  fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+    headers: { Authorization: 'Bearer ' + accessToken }
+  }).then(r => r.json()).then(u => {
+    document.getElementById('user-email').textContent = u.email || '';
+  });
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadDriveFiles().then(() => {
+    loadAgenda();
+    populateFinMes();
+  });
+}
+
+function sair() { accessToken = null; location.reload(); }
+
+// ── NAV ──────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  const idx = { agenda:0, pacientes:1, anamnese:3, evolucao:4, financeiro:6 };
+  document.querySelectorAll('.nav-item')[idx[id]].classList.add('active');
+  if (id === 'pacientes') renderPacientes();
+  if (id === 'evolucao') { setEvData(); populateEvPac(); }
+  if (id === 'financeiro') renderFinanceiro();
+}
+
+function showTab(id) {
+  const tabs = ['ta1','ta2','ta3','ta4','ta5','ta6','ta7'];
+  tabs.forEach(t => document.getElementById(t).style.display = t===id ? 'block' : 'none');
+  document.querySelectorAll('.tab').forEach((b,i) => b.classList.toggle('active', tabs[i]===id));
+}
+
+// ── DRIVE ────────────────────────────────────────
+async function driveReq(method, path, body, params='') {
+  const url = `https://www.googleapis.com/drive/v3/${path}${params}`;
+  const opts = { method, headers: { Authorization: 'Bearer ' + accessToken } };
+  if (body) { opts.body = body; }
+  const r = await fetch(url, opts);
+  if (!r.ok) {
+    const err = await r.text();
+    throw new Error('Drive error ' + r.status + ': ' + err);
+  }
+  return r;
+}
+
+async function loadDriveFiles() {
+  try {
+    const r = await driveReq('GET', 'files', null,
+      "?q=name+contains+'Prontu%C3%A1rio'&fields=files(id,name,modifiedTime,description)&orderBy=modifiedTime+desc&pageSize=100");
+    const data = await r.json();
+    driveFiles = data.files || [];
+  } catch(e) {
+    console.error('Drive load error:', e);
+    driveFiles = [];
+  }
+}
+
+async function criarDocDrive(nome, conteudo) {
+  const boundary = 'foo_bar_baz';
+  const meta = JSON.stringify({ name: `Prontuário – ${nome}`, mimeType: 'application/vnd.google-apps.document' });
+  const body = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n${conteudo}\r\n--${boundary}--`;
+  const r = await fetch(
+    'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink',
+    { method:'POST', headers:{ Authorization:'Bearer '+accessToken, 'Content-Type':`multipart/related; boundary=${boundary}` }, body }
+  );
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+async function appendDocDrive(fileId, textoNovo) {
+  const exportR = await fetch(
+    `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=text/plain`,
+    { headers: { Authorization: 'Bearer ' + accessToken } }
+  );
+  const atual = await exportR.text();
+  const novo = atual + textoNovo;
+
+  const boundary = 'foo_bar_baz';
+  const meta = JSON.stringify({ mimeType: 'application/vnd.google-apps.document' });
+  const body = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n${novo}\r\n--${boundary}--`;
+  const r = await fetch(
+    `https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=multipart`,
+    { method:'PATCH', headers:{ Authorization:'Bearer '+accessToken, 'Content-Type':`multipart/related; boundary=${boundary}` }, body }
+  );
+  if (!r.ok) throw new Error(await r.text());
+}
+
+// ── AGENDA ───────────────────────────────────────
+async function loadAgenda() {
+  const el = document.getElementById('agenda-content');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div> Carregando agenda...</div>';
+  const now = new Date();
+  const dow = now.getDay();
+  const mon = new Date(now); mon.setDate(now.getDate()-(dow===0?6:dow-1)); mon.setHours(0,0,0,0);
+  const sun = new Date(mon); sun.setDate(mon.getDate()+6); sun.setHours(23,59,59,999);
+  try {
+    const r = await fetch(
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${mon.toISOString()}&timeMax=${sun.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=100`,
+      { headers: { Authorization: 'Bearer ' + accessToken } }
+    );
+    const data = await r.json();
+    renderAgenda(data.items || [], mon);
+  } catch(e) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📅</div><div class="empty-title">Erro ao carregar agenda</div><div class="empty-sub">Verifique se a Google Calendar API está ativada no seu projeto.</div></div>';
+  }
+}
+
+function renderAgenda(events, weekStart) {
+  const el = document.getElementById('agenda-content');
+  const today = new Date().toISOString().split('T')[0];
+  const days = ['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+
+  let weekHtml = '<div class="week-grid">';
+  for (let i=0;i<7;i++) {
+    const d = new Date(weekStart); d.setDate(weekStart.getDate()+i);
+    const ds = d.toISOString().split('T')[0];
+    const dayEvs = events.filter(e=>(e.start.dateTime||e.start.date||'').startsWith(ds));
+    weekHtml += `<div class="day-col${ds===today?' today':''}" onclick="abrirModalConsulta('${ds}')">
+      <div class="day-label">${days[i]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      ${dayEvs.map(e=>{
+        const t=e.start.dateTime?new Date(e.start.dateTime).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'';
+        return `<div class="day-event">${t} ${e.summary||''}</div>`;
+      }).join('')}
+    </div>`;
+  }
+  weekHtml += '</div>';
+
+  const todayEvs = events.filter(e=>(e.start.dateTime||e.start.date||'').startsWith(today))
+    .sort((a,b)=>(a.start.dateTime||a.start.date).localeCompare(b.start.dateTime||b.start.date));
+
+  const total = events.length;
+  const metricsHtml = `<div class="metrics">
+    <div class="metric"><div class="m-label">Eventos esta semana</div><div class="m-value">${total}</div></div>
+    <div class="metric"><div class="m-label">Hoje</div><div class="m-value">${todayEvs.length}</div></div>
+    <div class="metric"><div class="m-label">Pacientes no Drive</div><div class="m-value">${driveFiles.length}</div></div>
+    <div class="metric"><div class="m-label">Semana</div><div class="m-value" style="font-size:14px">${new Date(weekStart).toLocaleDateString('pt-BR',{day:'numeric',month:'short'})}</div></div>
+  </div>`;
+
+  let listHtml = `<div class="card"><div class="card-title">Hoje — ${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'})}</div>`;
+  if (!todayEvs.length) {
+    listHtml += '<div style="color:var(--text3);font-size:13px;padding:.5rem 0">Nenhum evento hoje.</div>';
+  } else {
+    todayEvs.forEach(e=>{
+      const s=e.start.dateTime?new Date(e.start.dateTime).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'dia todo';
+      const en=e.end?.dateTime?new Date(e.end.dateTime).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}):'';
+      listHtml+=`<div class="event-row">
+        <span class="event-time">${s}${en?' – '+en:''}</span>
+        <span class="event-dot"></span>
+        <div><div class="event-title">${e.summary||'(sem título)'}</div>${e.description?`<div class="event-sub">${e.description}</div>`:''}</div>
+      </div>`;
+    });
+  }
+  listHtml += '</div>';
+
+  el.innerHTML = metricsHtml + weekHtml + listHtml;
+}
+
+// ── NOVA CONSULTA ────────────────────────────────
+function abrirModalConsulta(data='') {
+  document.getElementById('modal-consulta').style.display = 'flex';
+  const mc = document.getElementById('mc-pac');
+  mc.innerHTML = '<option value="">Selecione o paciente</option>';
+  driveFiles.forEach(f => {
+    const n = f.name.replace(/^Prontu[áa]rio\s*[–-]\s*/i,'');
+    mc.innerHTML += `<option value="${n}">${n}</option>`;
+  });
+  document.getElementById('mc-data').value = data || new Date().toISOString().split('T')[0];
+  document.getElementById('mc-hora').value = '09:00';
+}
+
+function fecharModal() {
+  document.getElementById('modal-consulta').style.display = 'none';
+}
+
+async function criarConsulta() {
+  const pac = document.getElementById('mc-pac').value;
+  const data = document.getElementById('mc-data').value;
+  const hora = document.getElementById('mc-hora').value;
+  const dur = parseInt(document.getElementById('mc-dur').value);
+  const obs = document.getElementById('mc-obs').value;
+  if (!data || !hora) { showToast('Preencha data e horário.'); return; }
+
+  const btn = document.getElementById('btn-criar-consulta');
+  btn.disabled=true; btn.textContent='Criando...';
+
+  const start = new Date(`${data}T${hora}:00`);
+  const end = new Date(start.getTime() + dur*60000);
+
+  const event = {
+    summary: pac ? `Sessão — ${pac}` : 'Sessão de psicoterapia',
+    description: obs || 'Psicóloga: Vitória Freitas — CRP 05/72596',
+    start: { dateTime: start.toISOString(), timeZone: 'America/Sao_Paulo' },
+    end: { dateTime: end.toISOString(), timeZone: 'America/Sao_Paulo' }
+  };
+
+  try {
+    const r = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+      method:'POST',
+      headers: { Authorization:'Bearer '+accessToken, 'Content-Type':'application/json' },
+      body: JSON.stringify(event)
+    });
+    if (!r.ok) throw new Error(await r.text());
+    showToast(`✓ Consulta criada na agenda${pac?' para '+pac:''}!`);
+    fecharModal();
+    loadAgenda();
+  } catch(e) {
+    showToast('Erro ao criar consulta: ' + e.message);
+  }
+  btn.disabled=false; btn.textContent='📅 Criar no Google Agenda';
+}
+
+// ── PACIENTES ─────────────────────────────────────
+function renderPacientes() {
+  const el = document.getElementById('pacientes-content');
+  if (!driveFiles.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">👤</div><div class="empty-title">Nenhum prontuário no Drive</div><div class="empty-sub">Crie a primeira anamnese pelo menu.</div></div>';
+    return;
+  }
+  const metricsHtml = `<div class="metrics">
+    <div class="metric"><div class="m-label">Total de pacientes</div><div class="m-value">${driveFiles.length}</div></div>
+    <div class="metric"><div class="m-label">Prontuários no Drive</div><div class="m-value">${driveFiles.length}</div></div>
+    <div class="metric"><div class="m-label">Último prontuário</div><div class="m-value" style="font-size:14px">${driveFiles[0]?new Date(driveFiles[0].modifiedTime).toLocaleDateString('pt-BR'):'—'}</div></div>
+    <div class="metric"><div class="m-label">Armazenamento</div><div class="m-value" style="font-size:14px">Drive</div><div class="m-sub">Google Docs</div></div>
+  </div>`;
+
+  const grid = driveFiles.map(f=>{
+    const name = f.name.replace(/^Prontu[áa]rio\s*[–-]\s*/i,'');
+    const init = name.split(' ').slice(0,2).map(w=>w[0]||'').join('').toUpperCase();
+    const valor = f.description ? 'R$ '+f.description : '';
+    return `<div class="patient-card">
+      <div class="p-avatar">${init}</div>
+      <div class="p-name">${name}</div>
+      <div class="p-meta">Atualizado ${new Date(f.modifiedTime).toLocaleDateString('pt-BR')}</div>
+      ${valor?`<div class="p-valor">${valor}/sessão</div>`:''}
+      <div class="p-actions">
+        <button class="p-btn pp" onclick="window.open('https://docs.google.com/document/d/${f.id}/edit','_blank')">Ver prontuário</button>
+        <button class="p-btn" onclick="irEvolucao('${f.id}','${name.replace(/'/g,"\\'")}')">+ Sessão</button>
+        <button class="p-btn" onclick="abrirModalConsulta()">+ Consulta</button>
+      </div>
+    </div>`;
+  }).join('');
+  el.innerHTML = metricsHtml + '<div class="patient-grid">'+grid+'</div>';
+}
+
+// ── ANAMNESE ──────────────────────────────────────
+function v(id){ return (document.getElementById(id)?.value||'—').trim()||'—'; }
+
+async function salvarAnamnese() {
+  const nome = document.getElementById('a-nome').value.trim();
+  if (!nome) { showToast('Preencha o nome do paciente.'); return; }
+  const btn = document.getElementById('btn-anamnese');
+  btn.disabled=true; btn.textContent='Salvando no Drive...';
+
+  const nasc = document.getElementById('a-nasc').value;
+  const idade = nasc ? Math.floor((new Date()-new Date(nasc+'T12:00:00'))/(365.25*24*3600*1000))+' anos' : '—';
+  const valor = document.getElementById('a-valor').value;
+
+  const conteudo = `PRONTUÁRIO PSICOLÓGICO
+Psicóloga responsável: Vitória Freitas — CRP 05/72596
+Data de criação: ${new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'})}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IDENTIFICAÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nome: ${nome}
+Data de nascimento: ${nasc?new Date(nasc+'T12:00:00').toLocaleDateString('pt-BR'):'—'} (${idade})
+Gênero: ${v('a-genero')} | Pronomes: ${v('a-pronomes')}
+Orientação sexual: ${v('a-orient')}
+Estado civil: ${v('a-civil')}
+Profissão: ${v('a-prof')} | Escolaridade: ${v('a-escol')}
+WhatsApp: ${v('a-tel')} | Email: ${v('a-email')}
+Encaminhamento: ${v('a-enc')}
+Modalidade: ${v('a-modal')} | Frequência: ${v('a-freq')}
+Valor da sessão: ${valor?'R$ '+valor:'—'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUEIXA E DEMANDA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Queixa principal:
+${v('a-queixa')}
+
+História da queixa:
+${v('a-hist-queixa')}
+
+Tentativas anteriores de solução:
+${v('a-tentativas')}
+
+Expectativas com a psicoterapia:
+${v('a-expectativa')}
+
+Acompanhamentos anteriores:
+${v('a-anteriores')}
+
+Medicação atual:
+${v('a-meds')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HISTÓRIA DE VIDA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Marcos significativos:
+${v('a-marcos')}
+
+Experiências de luto e perda:
+${v('a-luto')}
+
+Traumas e experiências difíceis:
+${v('a-trauma')}
+
+Recursos e experiências positivas:
+${v('a-recursos')}
+
+Escolaridade e vida profissional:
+${v('a-escola')}
+
+Sonhos e projetos de futuro:
+${v('a-sonhos')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INFÂNCIA E FAMÍLIA DE ORIGEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Configuração familiar de origem:
+${v('a-fam-orig')}
+
+Relação com a figura materna:
+${v('a-mae')}
+
+Relação com a figura paterna:
+${v('a-pai')}
+
+Irmãos e posição na fratria:
+${v('a-irmaos')}
+
+Clima emocional da família:
+${v('a-clima')}
+
+Memórias marcantes da infância:
+${v('a-mem-inf')}
+
+Experiências de abuso ou negligência:
+${v('a-abuso')}
+
+Padrões relacionais aprendidos:
+${v('a-padroes')}
+
+História familiar de saúde mental:
+${v('a-fam-saude')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VIDA AMOROSA E RELAÇÕES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Situação afetiva atual:
+${v('a-afetivo')}
+
+Histórico afetivo-amoroso:
+${v('a-historico-am')}
+
+Padrões repetidos nos relacionamentos:
+${v('a-padroes-am')}
+
+Vida sexual:
+${v('a-sexual')}
+
+Relação com o próprio corpo:
+${v('a-corpo')}
+
+Filhos e maternidade/paternidade:
+${v('a-filhos')}
+
+Rede de amizades e vínculos sociais:
+${v('a-amigos')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SAÚDE E CONTEXTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Saúde física:
+${v('a-saude')}
+
+Diagnósticos psiquiátricos: ${v('a-diag')}
+Sono: ${v('a-sono')} | Alimentação: ${v('a-alim')}
+Uso de substâncias: ${v('a-subs')}
+Indicadores de risco: ${v('a-risco')}
+
+Contexto socioeconômico:
+${v('a-social')}
+
+Situação de trabalho:
+${v('a-trabalho')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SUBJETIVIDADE E DINÂMICA PSÍQUICA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Religiosidade e espiritualidade:
+${v('a-relig')}
+
+Valores e crenças centrais:
+${v('a-valores')}
+
+Como lida com conflitos e frustrações:
+${v('a-conflito')}
+
+Mecanismos de defesa percebidos:
+${v('a-defesa')}
+
+Imagem de si mesmo:
+${v('a-selfimage')}
+
+Interesses e lazer:
+${v('a-lazer')}
+
+Sonhos recorrentes ou marcantes:
+${v('a-sonhos-sono')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IMPRESSÕES CLÍNICAS INICIAIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${v('a-impressoes')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+REGISTRO DE EVOLUÇÕES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[As evoluções de sessão serão adicionadas abaixo]
+
+`;
+
+  try {
+    const file = await criarDocDrive(nome, conteudo);
+    if (valor) {
+      await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}?fields=id`, {
+        method:'PATCH',
+        headers:{ Authorization:'Bearer '+accessToken, 'Content-Type':'application/json' },
+        body: JSON.stringify({ description: valor })
+      });
+    }
+    await loadDriveFiles();
+    showToast(`✓ Prontuário de ${nome} criado no Drive!`);
+    btn.disabled=false; btn.textContent='📁 Salvar prontuário no Drive';
+    setTimeout(()=>window.open(file.webViewLink,'_blank'),600);
+  } catch(e) {
+    showToast('Erro ao salvar: '+e.message);
+    console.error(e);
+    btn.disabled=false; btn.textContent='📁 Salvar prontuário no Drive';
+  }
+}
+
+// ── EVOLUÇÃO ──────────────────────────────────────
+function setEvData() {
+  const d = document.getElementById('ev-data');
+  if (!d.value) d.value = new Date().toISOString().split('T')[0];
+}
+
+function populateEvPac(selId='') {
+  const sel = document.getElementById('ev-pac');
+  sel.innerHTML = '<option value="">Selecione o paciente</option>';
+  driveFiles.forEach(f=>{
+    const n = f.name.replace(/^Prontu[áa]rio\s*[–-]\s*/i,'');
+    sel.innerHTML += `<option value="${f.id}" ${f.id===selId?'selected':''}>${n}</option>`;
+  });
+}
+
+function irEvolucao(fileId, nome) {
+  showSection('evolucao');
+  setTimeout(()=>populateEvPac(fileId),100);
+}
+
+async function salvarEvolucao() {
+  const fileId = document.getElementById('ev-pac').value;
+  const pac = document.getElementById('ev-pac').selectedOptions[0]?.text;
+  const dataEv = document.getElementById('ev-data').value;
+  if (!fileId) { showToast('Selecione um paciente.'); return; }
+  if (!dataEv) { showToast('Informe a data da sessão.'); return; }
+
+  const btn = document.getElementById('btn-evolucao');
+  btn.disabled=true; btn.textContent='Salvando...';
+
+  const num = document.getElementById('ev-num').value||'?';
+  const df = new Date(dataEv+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+
+  const entrada = `
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SESSÃO ${num} — ${df}
+Pagamento: ${document.getElementById('ev-pago').value}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Conteúdo trazido:
+${document.getElementById('ev-cont').value||'—'}
+
+Intervenções realizadas:
+${document.getElementById('ev-interv').value||'—'}
+
+Impressões clínicas e evolução:
+${document.getElementById('ev-imp').value||'—'}
+
+Planejamento para próxima sessão:
+${document.getElementById('ev-plan').value||'—'}
+`;
+
+  try {
+    await appendDocDrive(fileId, entrada);
+    showToast(`✓ Sessão ${num} salva no prontuário de ${pac}!`);
+    ['ev-cont','ev-interv','ev-imp','ev-plan','ev-num'].forEach(id=>document.getElementById(id).value='');
+  } catch(e) {
+    showToast('Erro ao salvar evolução: '+e.message);
+    console.error(e);
+  }
+  btn.disabled=false; btn.textContent='📁 Salvar evolução';
+}
+
+// ── FINANCEIRO ────────────────────────────────────
+function populateFinMes() {
+  const sel = document.getElementById('fin-mes');
+  const now = new Date();
+  sel.innerHTML='';
+  for (let i=0;i<6;i++) {
+    const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    const val = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    const label = d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    sel.innerHTML += `<option value="${val}">${label}</option>`;
+  }
+  renderFinanceiro();
+}
+
+async function renderFinanceiro() {
+  const el = document.getElementById('fin-content');
+  el.innerHTML='<div class="loading"><div class="spinner"></div> Carregando...</div>';
+
+  const mes = document.getElementById('fin-mes').value;
+  if (!mes) return;
+  const [ano, m] = mes.split('-').map(Number);
+  const inicio = new Date(ano,m-1,1).toISOString();
+  const fim = new Date(ano,m,0,23,59,59).toISOString();
+
+  try {
+    const r = await fetch(
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${inicio}&timeMax=${fim}&singleEvents=true&orderBy=startTime&maxResults=200`,
+      { headers: { Authorization:'Bearer '+accessToken } }
+    );
+    const data = await r.json();
+    const events = (data.items||[]).filter(e=>e.summary&&e.summary.includes('Sessão'));
+
+    const byPac = {};
+    events.forEach(e=>{
+      const match = e.summary.match(/Sess[ãa]o\s*[—-]\s*(.+)/i);
+      const pac = match ? match[1].trim() : 'Outros';
+      if (!byPac[pac]) byPac[pac] = { sessoes:0, valor:0 };
+      byPac[pac].sessoes++;
+      const df = driveFiles.find(f=>f.name.toLowerCase().includes(pac.toLowerCase()));
+      byPac[pac].valor = df?.description ? parseFloat(df.description) : 0;
+    });
+
+    const rows = Object.entries(byPac);
+    const totalSessoes = rows.reduce((s,[,r])=>s+r.sessoes, 0);
+    const totalValor = rows.reduce((s,[,r])=>s+(r.sessoes*r.valor), 0);
+
+    const metricsHtml = `<div class="metrics">
+      <div class="metric"><div class="m-label">Sessões no mês</div><div class="m-value">${totalSessoes}</div></div>
+      <div class="metric"><div class="m-label">Total previsto</div><div class="m-value" style="font-size:20px">R$ ${totalValor.toLocaleString('pt-BR')}</div><div class="m-sub">baseado nos valores cadastrados</div></div>
+      <div class="metric"><div class="m-label">Pacientes ativos</div><div class="m-value">${rows.length}</div></div>
+      <div class="metric"><div class="m-label">Média por sessão</div><div class="m-value" style="font-size:20px">R$ ${totalSessoes?Math.round(totalValor/totalSessoes):0}</div></div>
+    </div>`;
+
+    let tableHtml = `<div class="card"><div class="card-title">Detalhamento por paciente</div>
+      <table class="fin-table">
+        <thead><tr><th>Paciente</th><th>Sessões</th><th>Valor/sessão</th><th>Total</th></tr></thead>
+        <tbody>`;
+
+    if (!rows.length) {
+      tableHtml += '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:2rem">Nenhuma sessão encontrada neste mês.<br><small style="opacity:.7">As consultas precisam ter "Sessão —" no título na agenda.</small></td></tr>';
+    } else {
+      rows.forEach(([pac, d])=>{
+        const total = d.sessoes * d.valor;
+        tableHtml += `<tr>
+          <td><strong>${pac}</strong></td>
+          <td>${d.sessoes}</td>
+          <td>${d.valor?'R$ '+d.valor.toLocaleString('pt-BR'):'<span style="color:var(--text3)">Não cadastrado</span>'}</td>
+          <td><strong>${total?'R$ '+total.toLocaleString('pt-BR'):'—'}</strong></td>
+        </tr>`;
+      });
+      tableHtml += `<tr style="background:var(--s2)">
+        <td><strong>TOTAL</strong></td>
+        <td><strong>${totalSessoes}</strong></td>
+        <td>—</td>
+        <td><strong style="color:var(--green)">R$ ${totalValor.toLocaleString('pt-BR')}</strong></td>
+      </tr>`;
+    }
+
+    tableHtml += '</tbody></table></div>';
+
+    // Exportar CSV
+    const csvRows = [['Paciente','Sessões','Valor/sessão','Total']];
+    rows.forEach(([pac,d])=>csvRows.push([pac, d.sessoes, d.valor||0, d.sessoes*d.valor]));
+    const csvStr = csvRows.map(r=>r.join(',')).join('\n');
+    const csvBtn = `<div style="display:flex;justify-content:flex-end;margin-top:.75rem">
+      <button class="btn btn-o btn-sm" onclick="downloadCSV(\`${csvStr.replace(/`/g,"'")}\`, '${mes}')">↓ Exportar CSV</button>
+    </div>`;
+
+    el.innerHTML = metricsHtml + tableHtml + csvBtn;
+  } catch(e) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">💰</div><div class="empty-title">Erro ao carregar financeiro</div><div class="empty-sub">'+e.message+'</div></div>';
+    console.error(e);
+  }
+}
+
+function downloadCSV(csv, mes) {
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `financeiro_${mes}.csv`;
+  a.click();
+}
+
+// ── UTILS ─────────────────────────────────────────
+function showToast(msg, dur=4500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), dur);
+}
+
+// Fechar modal ao clicar fora
+document.addEventListener('click', e => {
+  const overlay = document.getElementById('modal-consulta');
+  if (e.target === overlay) fecharModal();
+});
+
+// Atalho ESC para fechar modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') fecharModal();
+});
+
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('gClientId');
+  if (saved) document.getElementById('client-id-input').value = saved;
+});
+</script>
+</body>
+</html>
